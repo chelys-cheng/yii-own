@@ -137,6 +137,7 @@ class BaseYii
              * - 每个类都必须置于命名空间之下
              * - 每个类都必须保存为单独文件，且其完整路径需与类名结构相同
              *   举例来说，若某个类名为 foo\bar\MyClass，对应类的文件路径别名会是 @foo/bar/MyClass.php。
+             */
             $classFile = static::getAlias('@' . str_replace('\\', '/', $className) . '.php', false);
             if ($classFile === false || !is_file($classFile)) {
                 return;
