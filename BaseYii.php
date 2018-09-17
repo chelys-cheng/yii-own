@@ -121,7 +121,7 @@ class BaseYii
     /**
      * 类自动加载器
      *
-     * @param string $className
+     * @param string $className 开头不包含反斜杠的类全名
      */
     public static function autoload($className)
     {
@@ -132,6 +132,11 @@ class BaseYii
                 $classFile = static::getAlias($classFile);
             }
         } elseif (strpos($className, '\\') !== false) {
+            /**
+             * 如果类名不在默认的路径映射中，则类名需要遵循一定条件：
+             * - 每个类都必须置于命名空间之下
+             * - 每个类都必须保存为单独文件，且其完整路径需与类名结构相同
+             *   举例来说，若某个类名为 foo\bar\MyClass，对应类的文件路径别名会是 @foo/bar/MyClass.php。
             $classFile = static::getAlias('@' . str_replace('\\', '/', $className) . '.php', false);
             if ($classFile === false || !is_file($classFile)) {
                 return;
